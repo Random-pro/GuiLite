@@ -1,11 +1,11 @@
-﻿#include "core_include/api.h"
-#include "core_include/rect.h"
-#include "core_include/cmd_target.h"
-#include "core_include/wnd.h"
-#include "core_include/resource.h"
-#include "core_include/word.h"
-#include "core_include/surface.h"
-#include "core_include/theme.h"
+#include "../core_include/api.h"
+#include "../core_include/rect.h"
+#include "../core_include/cmd_target.h"
+#include "../core_include/wnd.h"
+#include "../core_include/resource.h"
+#include "../core_include/word.h"
+#include "../core_include/surface.h"
+#include "../core_include/theme.h"
 #include "../widgets_include/button.h"
 #include "../widgets_include/spinbox.h"
 
@@ -79,7 +79,7 @@ void c_spin_box::on_touch_up(int x, int y)
 		m_value = m_cur_value;
 		m_status = STATUS_FOCUSED;
 		on_paint();
-		notify_parent(GL_SPIN_CONFIRM, get_id(), m_value);
+		notify_parent(GL_SPIN_CONFIRM, m_value);
 	}
 }
 
@@ -98,9 +98,9 @@ void c_spin_box::on_kill_focus()
 
 void c_spin_box::show_arrow_button()
 {
-	m_bt_up.connect(this, ID_BT_ARROW_UP, "\xe2\x96\xb2"/*▲*/, 0, m_wnd_rect.Height(), m_bt_up_rect.Width(),m_bt_up_rect.Height());
+	m_bt_up.connect(this, ID_BT_ARROW_UP, "\xe2\x96\xb2"/*unicode of up arrow*/, 0, m_wnd_rect.Height(), m_bt_up_rect.Width(),m_bt_up_rect.Height());
 	m_bt_up.show_window();
-	m_bt_down.connect(this, ID_BT_ARROW_DOWN, "\xe2\x96\xbc"/*▼*/, m_bt_up_rect.Width(), m_wnd_rect.Height(), m_bt_down_rect.Width(),m_bt_down_rect.Height());
+	m_bt_down.connect(this, ID_BT_ARROW_DOWN, "\xe2\x96\xbc"/*unicode of down arrow*/, m_bt_up_rect.Width(), m_wnd_rect.Height(), m_bt_down_rect.Width(),m_bt_down_rect.Height());
 	m_bt_down.show_window();
 
 	m_attr = (WND_ATTRIBUTION)(ATTR_VISIBLE | ATTR_FOCUS | ATTR_MODAL);
@@ -168,7 +168,7 @@ void c_spin_box::on_arrow_up_bt_click(unsigned int ctr_id)
 		return;
 	}
 	m_cur_value += m_step;
-	notify_parent(GL_SPIN_CHANGE, get_id(), m_cur_value);
+	notify_parent(GL_SPIN_CHANGE, m_cur_value);
 	on_paint();
 }
 
@@ -179,6 +179,6 @@ void c_spin_box::on_arrow_down_bt_click(unsigned int ctr_id)
 		return;
 	}
 	m_cur_value -= m_step;
-	notify_parent(GL_SPIN_CHANGE, get_id(), m_cur_value);
+	notify_parent(GL_SPIN_CHANGE, m_cur_value);
 	on_paint();
 }

@@ -1,8 +1,13 @@
+# How to build & port GuiLite?
 ## How to build GuiLite libary for Windows?
-Prerequisite: Windows 10, visul stdio 2015/2017
-- Open "GuiLite.sln" by Visual studio 2017
+Prerequisite: Windows & Visul Studio 2013/2015/2017/2019
+- Open "GuiLite.sln" by Visual Studio
 - Click `Build Solution`
 - Output here: \GuiLite\Debug(Release)\GuiLite.lib
+
+FAQ: Error when open GuiLite project with Visual Studio, reconfigure the project to match your computer like this:
+
+![vs-configure](vs-configure.jpg)
 
 ## How to build GuiLite libary for iOS/Mac and Linux(amd64) & raspberry pi?
 - `cd GuiLite`
@@ -38,3 +43,27 @@ Prerequisite: Windows 10, visul stdio 2015/2017
 - Choose your Device type(Default: STM32F103ZE) from option for target.
 - Build GuiLite.
 - Output here: /GuiLite/Objects/GuiLite.lib
+
+## How to port?
+Here are 2 options for porting. 
+
+### Option 1: 1 Header & 1 Source
+1. Execute `1h-1cpp.sh` to merge the whole source code into: 1 header(GuiLite.h) & 1 source(GuiLite.cpp)
+2. Move GuiLite.h/GuiLite.cpp to your project
+3. Rebuild your project
+
+### Option 2: Headers & 1 Library
+- Headers: core_include, widgets_include
+- Library: The GuiLite library
+1. Move core_include/widgets_include to your project
+2. Build GuiLite library by above building process
+3. Link GuiLite library to your project
+4. Rebuild your project
+
+We recommend option 1, because of:
+- Easy to port - no need to buid library
+- Easy to move - just 2 files
+- Easy to manage header files - just 1 header file
+- Easy to debug - no library binary
+
+On the other hand, for option 2: you should build GuiLite library, and move all headers files & library to your project.

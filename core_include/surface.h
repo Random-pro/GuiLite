@@ -1,5 +1,5 @@
-#ifndef SURFACE_H
-#define SURFACE_H
+#ifndef GUILITE_CORE_INCLUDE_SURFACE_H
+#define GUILITE_CORE_INCLUDE_SURFACE_H
 
 class c_frame_layer
 {
@@ -47,7 +47,7 @@ public:
 		fill_rect(rect.m_left, rect.m_top, rect.m_right, rect.m_bottom, rgb, z_order);
 	}
 
-	int flush_scrren(int left, int top, int right, int bottom);
+	int flush_screen(int left, int top, int right, int bottom);
 	bool is_valid(c_rect rect);
 	bool is_active() { return m_is_active; }
 	c_display* get_display() { return m_display; }
@@ -57,14 +57,13 @@ public:
 protected:
 	virtual void fill_rect_on_fb(int x0, int y0, int x1, int y1, unsigned int rgb);
 	virtual void draw_pixel_on_fb(int x, int y, unsigned int rgb);
-	void set_surface(void* wnd_root, Z_ORDER_LEVEL max_z_order);
+	void set_surface(Z_ORDER_LEVEL max_z_order);
 	c_surface(c_display* display, unsigned int width, unsigned int height, unsigned int color_bytes);
 	int						m_width;		//in pixels
 	int						m_height;		//in pixels
 	int						m_color_bytes;	//16 bits, 32 bits only
 	void* 					m_fb;			//Top frame buffer you could see
 	c_frame_layer 			m_frame_layers[Z_ORDER_LEVEL_MAX];//Top layber fb always be 0
-	void*					m_usr;
 	bool					m_is_active;
 	Z_ORDER_LEVEL			m_max_zorder;
 	Z_ORDER_LEVEL			m_top_zorder;

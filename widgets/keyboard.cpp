@@ -1,11 +1,11 @@
-#include "core_include/api.h"
-#include "core_include/rect.h"
-#include "core_include/resource.h"
-#include "core_include/word.h"
-#include "core_include/cmd_target.h"
-#include "core_include/wnd.h"
-#include "core_include/surface.h"
-#include "core_include/theme.h"
+#include "../core_include/api.h"
+#include "../core_include/rect.h"
+#include "../core_include/resource.h"
+#include "../core_include/word.h"
+#include "../core_include/cmd_target.h"
+#include "../core_include/wnd.h"
+#include "../core_include/surface.h"
+#include "../core_include/theme.h"
 #include "../widgets_include/button.h"
 #include "../widgets_include/keyboard.h"
 #include <string.h>
@@ -184,13 +184,13 @@ void c_keyboard::on_caps_clicked(unsigned int ctrl_id)
 void c_keyboard::on_enter_clicked(unsigned int ctrl_id)
 {
 	memset(m_str, 0, sizeof(m_str));
-    notify_parent(KEYBORAD_CLICK, get_id(), CLICK_ENTER);
+    notify_parent(KEYBORAD_CLICK, CLICK_ENTER);
 }
 
 void c_keyboard::on_esc_clicked(unsigned int ctrl_id)
 {
 	memset(m_str, 0, sizeof(m_str));
-	notify_parent(KEYBORAD_CLICK, get_id(), CLICK_ESC);
+	notify_parent(KEYBORAD_CLICK, CLICK_ESC);
 }
 
 void c_keyboard::on_del_clicked(unsigned int ctrl_id)
@@ -200,7 +200,7 @@ void c_keyboard::on_del_clicked(unsigned int ctrl_id)
 		return;
 	}
 	m_str[--m_str_len] = 0;
-	notify_parent(KEYBORAD_CLICK, get_id(), CLICK_CHAR);
+	notify_parent(KEYBORAD_CLICK, CLICK_CHAR);
 }
 
 void c_keyboard::on_char_clicked(unsigned int ctrl_id)
@@ -225,7 +225,7 @@ void c_keyboard::on_char_clicked(unsigned int ctrl_id)
 	ASSERT(false);
 InputChar:
 	m_str[m_str_len++] = ctrl_id;
-	notify_parent(KEYBORAD_CLICK, get_id(), CLICK_CHAR);
+	notify_parent(KEYBORAD_CLICK, CLICK_CHAR);
 }
 
 void c_keyboard::on_paint()

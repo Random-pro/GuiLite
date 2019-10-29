@@ -1,12 +1,12 @@
-#include "core_include/api.h"
-#include "core_include/rect.h"
-#include "core_include/cmd_target.h"
-#include "core_include/wnd.h"
-#include "core_include/resource.h"
-#include "core_include/bitmap.h"
-#include "core_include/word.h"
-#include "core_include/surface.h"
-#include "core_include/theme.h"
+#include "../core_include/api.h"
+#include "../core_include/rect.h"
+#include "../core_include/cmd_target.h"
+#include "../core_include/wnd.h"
+#include "../core_include/resource.h"
+#include "../core_include/bitmap.h"
+#include "../core_include/word.h"
+#include "../core_include/surface.h"
+#include "../core_include/theme.h"
 #include "../widgets_include/button.h"
 
 void c_button::pre_create_wnd()
@@ -40,7 +40,7 @@ bool c_button::on_touch(int x, int y, TOUCH_ACTION action)
 	{
 		m_status = STATUS_FOCUSED;
 		on_paint();
-		notify_parent(GL_BN_CLICKED, get_id(), 0);
+		notify_parent(GL_BN_CLICKED, 0);
 	}
 	return true;
 }
@@ -49,7 +49,7 @@ bool c_button::on_key(KEY_TYPE key)
 {
 	if (key == KEY_ENTER)
 	{
-		notify_parent(GL_BN_CLICKED, get_id(), 0);
+		notify_parent(GL_BN_CLICKED, 0);
 		return false;// Do not handle KEY_ENTER by other wnd.
 	}
 	return true;// Handle KEY_FOWARD/KEY_BACKWARD by parent wnd.

@@ -1,15 +1,17 @@
-#include "core_include/api.h"
-#include "core_include/rect.h"
-#include "core_include/surface.h"
-#include "core_include/display.h"
-#include "core_include/cmd_target.h"
-#include "core_include/wnd.h"
-#include "core_include/surface.h"
+#include "../core_include/api.h"
+#include "../core_include/rect.h"
+#include "../core_include/surface.h"
+#include "../core_include/display.h"
+#include "../core_include/cmd_target.h"
+#include "../core_include/wnd.h"
+#include "../core_include/surface.h"
 #include "../widgets_include/dialog.h"
+#include "../widgets_include/gesture.h"
 #include "../widgets_include/slide_group.h"
 
 c_slide_group::c_slide_group()
 {
+	m_gesture = new c_gesture(this);
 	for(int i = 0; i < MAX_PAGES; i++)
 	{
 		m_slides[i] = 0;
@@ -43,7 +45,7 @@ int c_slide_group::set_active_slide(int index, bool is_redraw)
 			{
 				c_rect rc;
 				get_screen_rect(rc);
-				m_slides[i]->get_surface()->flush_scrren(rc.m_left, rc.m_top, rc.m_right, rc.m_bottom);
+				m_slides[i]->get_surface()->flush_screen(rc.m_left, rc.m_top, rc.m_right, rc.m_bottom);
 			}
 		}
 		else
@@ -63,7 +65,7 @@ int c_slide_group::add_slide(c_wnd* slide, unsigned short resource_id, short x, 
 	}
 
 	c_surface* old_surface = get_surface();
-	c_surface* new_surface = old_surface->get_display()->alloc_surface(slide,max_zorder);
+	c_surface* new_surface = old_surface->get_display()->alloc_surface(max_zorder);
 	new_surface->set_active(false);
 	set_surface(new_surface);
 	slide->connect(this, resource_id ,0 , x, y, width, height, p_child_tree);
@@ -107,7 +109,7 @@ int c_slide_group::add_clone_silde(c_wnd* slide, unsigned short resource_id, sho
 	}
 
 	c_surface* old_surface = get_surface();
-	c_surface* new_surface = old_surface->get_display()->alloc_surface(slide,max_zorder);
+	c_surface* new_surface = old_surface->get_display()->alloc_surface(max_zorder);
 	new_surface->set_active(false);
 	set_surface(new_surface);
 	c_wnd* page_tmp = slide->connect_clone(this,resource_id,0,x,y,width,height,p_child_tree);
@@ -157,9 +159,13 @@ bool c_slide_group::on_touch(int x, int y, TOUCH_ACTION action)
 {
 	x -= m_wnd_rect.m_left;
 	y -= m_wnd_rect.m_top;
-	if (m_slides[m_active_slide_index])
+
+	if (m_gesture->handle_swipe(x, y, action))
 	{
-		m_slides[m_active_slide_index]->on_touch(x, y, action);
+		if (m_slides[m_active_slide_index])
+		{
+			m_slides[m_active_slide_index]->on_touch(x, y, action);
+		}
 	}
 	return true;
 }

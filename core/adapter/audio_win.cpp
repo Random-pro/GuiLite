@@ -3,7 +3,6 @@
 #include <mmdeviceapi.h>
 
 #include "../../core_include/api.h"
-#include "../../core_include/msg.h"
 #include "../../core_include/audio.h"
 
 #ifndef AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM
@@ -51,7 +50,7 @@ static WAVEFORMATEX s_wav_format = {
 	0
 };
 
-static int register_wav_resouce(AUDIO_TYPE type, wchar_t* wav_path)
+static int register_wav_resouce(AUDIO_TYPE type, const wchar_t* wav_path)
 {
 	if (s_wav_resource[type].p_data)
 	{
@@ -214,7 +213,8 @@ void c_audio::init()
 									AUDIO_OUTPUT_BUF_LEN * 2, 0, &s_wav_format,	0);
 	CHECK_ERROR(ret);
 
-	s_audio_event = CreateEventEx(0, 0, 0, EVENT_ALL_ACCESS);
+	//s_audio_event = CreateEventEx(0, 0, 0, EVENT_ALL_ACCESS);
+	s_audio_event = CreateEvent(0, 0, 0, 0);
 	ret = s_audio_client->SetEventHandle(s_audio_event);
 	CHECK_ERROR(ret);
 
